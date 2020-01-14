@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseApp.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TestApp.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Fruit.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Moving_object.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Pacman.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ghost.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="Fruit.h" />
+    <ClInclude Include="TestApp.h" />
+    <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="BaseApp.h" />
+    <ClInclude Include="Moving_object.h" />
+    <ClInclude Include="Pacman.h" />
+    <ClInclude Include="ghost.h" />
+  </ItemGroup>
+</Project>
