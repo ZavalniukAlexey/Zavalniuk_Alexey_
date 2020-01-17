@@ -19,14 +19,23 @@ public:
 	int getY()const;
 	int getStartingX()const;
 	int getStartingY()const;
+	void setStartingX(const int x);
+	void setStartingY(const int y);
 	void setX(const int x);
 	void setY(const  int y);
+	void setHealth(const int hp);
+	void setDisplayName(const char name);
+	char getDirection() const;
 	int getXOld()const;
 	int getYOld()const;
 	void setXOld(const int x);
 	void setYOld(const  int y);
 	void setDirection(const char c);
 	int getHealth()const;
+	movableObject getThis()
+	{
+		return *this;
+	}
 	virtual ~movableObject();
 };
 

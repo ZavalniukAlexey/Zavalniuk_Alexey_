@@ -14,6 +14,7 @@ movableObject::movableObject()
 	startingX_ = 10;
 	direction_ = 't';
 }
+
 movableObject::movableObject(const int x, const int y, const int hp, const char c)
 {
 	posX_ = x;
@@ -29,67 +30,89 @@ movableObject::movableObject(const int x, const int y, const int hp, const char 
 
 char movableObject::getDisplayName() const
 {
-	return (this->displayName_);
+	return displayName_;
 }
 
 int movableObject::getX() const
 {
-	return (this->posX_);
+	return posX_;
 }
 
 int movableObject::getY() const
 {
-	return (this->posY_);
+	return posY_;
 }
 int movableObject::getStartingX() const
 {
-	return (this->startingX_);
+	return startingX_;
 }
 int movableObject::getStartingY() const
 {
-	return (this->startingY_);
+	return startingY_;
+}
+
+void movableObject::setStartingX(const int x)
+{
+	startingX_ = x;
+}
+void movableObject::setStartingY(const int y)
+{
+	startingY_ = y;
 }
 
 void movableObject::setX(const int x)
 {
-	this->posX_ = x;
+	posX_ = x;
 }
 
 void movableObject::setY(const int y)
 {
-	this->posY_ = y;
+	posY_ = y;
+}
+
+void movableObject::setHealth(const int hp)
+{
+	health_ = hp;
+}
+
+void movableObject::setDisplayName(const char name)
+{
+	displayName_ = name;
+}
+
+char movableObject::getDirection() const
+{
+	return direction_;
 }
 
 int movableObject::getXOld() const
 {
-	return (this->posXOld_);
+	return posXOld_;
 }
 
 int movableObject::getYOld() const
 {
-	return (this->posYOld_);
+	return posYOld_;
 }
 
 void movableObject::setXOld(const int x)
 {
-	this->posXOld_ = x;
+	posXOld_ = x;
 }
 void movableObject::setYOld(const int y)
 {
-	this->posYOld_ = y;
+	posYOld_ = y;
 }
 
 void movableObject::setDirection(const char c)
 {
-	this->direction_ = c;
+	direction_ = c;
 }
 
 int movableObject::getHealth() const
 {
-	return (this->health_);
+	return health_;
 }
-
-
 
 movableObject::~movableObject()
 {

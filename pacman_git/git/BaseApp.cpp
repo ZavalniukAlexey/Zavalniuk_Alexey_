@@ -45,16 +45,8 @@ BaseApp::BaseApp(const int xSize, const int ySize) : X_SIZE(xSize), Y_SIZE(ySize
 	mLpWriteRegion.Top = 0;
 	mLpWriteRegion.Right = X_SIZE + 1;
 	mLpWriteRegion.Bottom = Y_SIZE + 1;	
-
-
-	for (int x=0; x<X_SIZE+1; x++)
-	{
-		for (int y=0; y<Y_SIZE+1; y++)
-		{
-			setChar(x, y, L' ');
-		}
-	}
 }
+
 
 BaseApp::~BaseApp()
 {

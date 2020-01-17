@@ -38,7 +38,7 @@ void Pacman::move(int btnCode, Field &f)
 		{
 			posY_--;
 		}
-		this->direction_ = 't';
+		direction_ = 't';
 	}
 	else if (btnCode == getSCode())
 	{
@@ -46,7 +46,7 @@ void Pacman::move(int btnCode, Field &f)
 		{
 			posY_++;
 		}
-		this->direction_ = 'b';
+		direction_ = 'b';
 	}
 	else if (btnCode == getACode())
 	{
@@ -55,7 +55,7 @@ void Pacman::move(int btnCode, Field &f)
 
 			posX_--;
 		}
-		this->direction_ = 'l';
+		direction_ = 'l';
 	}
 	else if (btnCode == getDCode())
 	{
@@ -64,15 +64,19 @@ void Pacman::move(int btnCode, Field &f)
 
 			posX_++;
 		}
-		this->direction_ = 'r';
+		direction_ = 'r';
 	}
 
 	if (posX_ < getPaddingSide() + 1)
 	{
 		if (posY_ == getJumpLine() + getPaddingTop())
+		{
 			posX_--;
+		}
 		if (posX_ < 2)
+		{
 			posX_ = getXSize() - 2;
+		}
 		posX_++;
 	}
 
@@ -99,22 +103,22 @@ void Pacman::move(int btnCode, Field &f)
 	{
 		posY_--;
 	}
-	f.updateField(this->getYOld() - getPaddingTop() + 1, this->getXOld() - getPaddingSide(), ' ');
-	f.updateField(this->getY() - getPaddingTop() + 1, this->getX() - getPaddingSide(), this->getDisplayName());
-	this->posXOld_ = this->posX_;
-	this->posYOld_ = this->posY_;
+	f.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
+	f.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
+	posXOld_ = posX_;
+	posYOld_ = posY_;
 }
 
 void Pacman::respawn()
 {
-	this->health_--;
-	this->posX_ = startingX_;
-	this->posY_ = startingY_;
+	health_--;
+	posX_ = startingX_;
+	posY_ = startingY_;
 }
 
 char Pacman::getDirection() const
 {
-	return this->direction_;
+	return direction_;
 }
 
 Pacman::~Pacman()

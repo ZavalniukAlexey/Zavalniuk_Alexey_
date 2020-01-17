@@ -42,6 +42,7 @@ Ghost::Ghost(int x, int y, int hp, char c)
 	chase_ = true;
 	direction_ = 'l';
 }
+
 void Ghost::respawn()
 {
 	posX_ = startingX_;
@@ -104,23 +105,23 @@ void move(Ghost &g, const int x, const int y, Field &f, char dir)
 
 void Ghost::moveToStop(Field &field, int steps, Pacman pacman)
 {
-	switch (this->direction_)
+	switch (direction_)
 	{
 	case 't':
 	{
 		if (!switched)
 		{
-			if (field.getFieldChar(this->posY_, this->posX_ - 1) != '#' ||
-				field.getFieldChar(this->posY_, this->posX_ + 1) != '#')
+			if (field.getFieldChar(posY_,  posX_ - 1) != '#' ||
+				field.getFieldChar( posY_,  posX_ + 1) != '#')
 			{
 				turn('t', pacman, field);
 				break;
 			}
 		}
 		switched = false;
-		while (steps-- && (field.getFieldChar(this->posY_ - 1, this->posX_) != '#'))
+		while (steps-- && (field.getFieldChar( posY_ - 1,  posX_) != '#'))
 		{
-			move(*this, this->posY_ - 1, this->posX_, field, 't');
+			move(*this,  posY_ - 1,  posX_, field, 't');
 		}
 		break;
 	}
@@ -128,17 +129,17 @@ void Ghost::moveToStop(Field &field, int steps, Pacman pacman)
 	{
 		if (!switched)
 		{
-			if (field.getFieldChar(this->posY_, this->posX_ - 1) != '#' ||
-				field.getFieldChar(this->posY_, this->posX_ + 1) != '#')
+			if (field.getFieldChar( posY_,  posX_ - 1) != '#' ||
+				field.getFieldChar( posY_,  posX_ + 1) != '#')
 			{
 				turn('b', pacman, field);
 				break;
 			}
 		}
 		switched = false;
-		while (steps-- && (field.getFieldChar(this->posY_ + 1, this->posX_) != '#'))
+		while (steps-- && (field.getFieldChar( posY_ + 1,  posX_) != '#'))
 		{
-			move(*this, this->posY_ + 1, this->posX_, field, 'b');
+			move(*this,  posY_ + 1,  posX_, field, 'b');
 		}
 		break;
 	}
@@ -146,17 +147,17 @@ void Ghost::moveToStop(Field &field, int steps, Pacman pacman)
 	{
 		if (!switched)
 		{
-			if (field.getFieldChar(this->posY_ - 1, this->posX_) != '#' ||
-				field.getFieldChar(this->posY_ + 1, this->posX_) != '#')
+			if (field.getFieldChar( posY_ - 1,  posX_) != '#' ||
+				field.getFieldChar( posY_ + 1,  posX_) != '#')
 			{
 				turn('l', pacman, field);
 				break;
 			}
 		}
 		switched = false;
-		while (steps-- && (field.getFieldChar(this->posY_, this->posX_ - 1) != '#'))
+		while (steps-- && (field.getFieldChar( posY_,  posX_ - 1) != '#'))
 		{
-			move(*this, this->posY_, this->posX_ - 1, field, 'l');
+			move(*this,  posY_,  posX_ - 1, field, 'l');
 		}
 		break;
 	}
@@ -164,24 +165,24 @@ void Ghost::moveToStop(Field &field, int steps, Pacman pacman)
 	{
 		if (!switched)
 		{
-			if (field.getFieldChar(this->posY_ - 1, this->posX_) != '#' ||
-				field.getFieldChar(this->posY_ + 1, this->posX_) != '#')
+			if (field.getFieldChar( posY_ - 1,  posX_) != '#' ||
+				field.getFieldChar( posY_ + 1,  posX_) != '#')
 			{
 				turn('r', pacman, field);
 				break;
 			}
 		}
 		switched = false;
-		while (steps-- && (field.getFieldChar(this->posY_, this->posX_ + 1) != '#'))
+		while (steps-- && (field.getFieldChar( posY_,  posX_ + 1) != '#'))
 		{
-			move(*this, this->posY_, this->posX_ + 1, field, 'r');
+			move(*this,  posY_,  posX_ + 1, field, 'r');
 		}
 		break;
 	}
 
 	default:
 	{
-		move(*this, this->posY_, this->posX_ + 1, field, 'r');
+		move(*this,  posY_,  posX_ + 1, field, 'r');
 		break;
 	}
 	}
@@ -243,33 +244,33 @@ void Ghost::turn(char direction, Pacman pacman, Field field)
 	{
 	case 't':
 	{
-		check(this->getX(), this->getY() - 1, pacman.getX(), pacman.getY(), top, field);
-		check(this->getX() + 1, this->getY(), pacman.getX(), pacman.getY(), right, field);
-		check(this->getX() - 1, this->getY(), pacman.getX(), pacman.getY(), left, field);
+		check( getX(),  getY() - 1, pacman.getX(), pacman.getY(), top, field);
+		check( getX() + 1,  getY(), pacman.getX(), pacman.getY(), right, field);
+		check( getX() - 1,  getY(), pacman.getX(), pacman.getY(), left, field);
 		set(top, bot, right, left, field, *this);
 		break;
 	}
 	case 'b':
 	{
-		check(this->getX() + 1, this->getY(), pacman.getX(), pacman.getY(), right, field);
-		check(this->getX() - 1, this->getY(), pacman.getX(), pacman.getY(), left, field);
-		check(this->getX(), this->getY() + 1, pacman.getX(), pacman.getY(), bot, field);
+		check( getX() + 1,  getY(), pacman.getX(), pacman.getY(), right, field);
+		check( getX() - 1,  getY(), pacman.getX(), pacman.getY(), left, field);
+		check( getX(),  getY() + 1, pacman.getX(), pacman.getY(), bot, field);
 		set(top, bot, right, left, field, *this);
 		break;
 	}
 	case 'r':
 	{
-		check(this->getX(), this->getY() + 1, pacman.getX(), pacman.getY(), bot, field);
-		check(this->getX() + 1, this->getY(), pacman.getX(), pacman.getY(), right, field);
-		check(this->getX(), this->getY() - 1, pacman.getX(), pacman.getY(), top, field);
+		check( getX(),  getY() + 1, pacman.getX(), pacman.getY(), bot, field);
+		check( getX() + 1,  getY(), pacman.getX(), pacman.getY(), right, field);
+		check( getX(),  getY() - 1, pacman.getX(), pacman.getY(), top, field);
 		set(top, bot, right, left, field, *this);
 		break;
 	}
 	case 'l':
 	{
-		check(this->getX(), this->getY() - 1, pacman.getX(), pacman.getY(), top, field);
-		check(this->getX() - 1, this->getY(), pacman.getX(), pacman.getY(), left, field);
-		check(this->getX(), this->getY() + 1, pacman.getX(), pacman.getY(), bot, field);
+		check( getX(),  getY() - 1, pacman.getX(), pacman.getY(), top, field);
+		check( getX() - 1,  getY(), pacman.getX(), pacman.getY(), left, field);
+		check( getX(),  getY() + 1, pacman.getX(), pacman.getY(), bot, field);
 		set(top, bot, right, left, field, *this);
 		break;
 	}

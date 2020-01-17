@@ -1,5 +1,5 @@
 #pragma once
-
+#include "SmartPointer.hpp"
 inline const int getStepSpeed()
 {
 	return 2;
@@ -54,4 +54,31 @@ inline const int getBigNumber()
 	return 1000000;
 }
 
-
+inline const int getMaxScore()
+{
+	return 2530;
+}
+inline const int getConsoleSizeX()
+{
+	return 30;
+}
+inline const int getConsoleSizeY()
+{
+	return 38;
+}
+inline const int getScoreToSpawnBlue()
+{
+	return 300;
+}
+inline const int getFieldX()
+{
+	return 29;
+}
+inline const int getFieldY()
+{
+	return 31;
+}
+inline const int getScoreMultiplier()
+{
+	return 10;
+}

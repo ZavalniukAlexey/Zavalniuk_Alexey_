@@ -12,7 +12,6 @@ void main ()
 	Ghost blue(14,11,1, 'b');
 	Ghost orange(15,11,1, 'o');
 	Game app;
-	//меню
 	app.run(pacman, red, pink, blue, orange, field);
 }
 

@@ -7,7 +7,6 @@
 #include "Pacman.hpp"
 #include "Ghost.hpp"
 
-//using namespace std;
 
 class BaseApp
 {

@@ -1,5 +1,6 @@
 #include "Field.hpp"
 #include <iostream>
+#include "Consts.hpp"
 #include "BaseApp.hpp"
 
 Field::Field()
@@ -39,7 +40,7 @@ Field::Field()
 	};
 	for (int i = 0; i < 31; i++)
 		for (int j = 0; j < 29; j++)
-			this->field[i][j] = f[i][j];
+			 field[i][j] = f[i][j];
 }
 
 
@@ -81,18 +82,18 @@ void Field::resetField()
 		"#..........................#",	
 		"############################" 	
 	};
-for (int i = 0; i < 31; i++)
-	for (int j = 0; j < 29; j++)
-		this->field[i][j] = f[i][j];
+for (int i = 0; i < getFieldY(); i++)
+	for (int j = 0; j < getFieldX(); j++)
+		 field[i][j] = f[i][j];
 }
 
 int Field::countStars() const
 {
 	int counter = 0;
-	for (int i = 0; i < 31; i++)
-		for (int j = 0; j < 29; j++)
+	for (int i = 0; i < getFieldY(); i++)
+		for (int j = 0; j < getFieldX(); j++)
 		{
-			if (this->field[i][j] == '.')
+			if ( field[i][j] == '.')
 			counter++;
 		}
 	return counter;
@@ -102,7 +103,7 @@ int Field::getFieldScore() const
 {
 	Field temp;
 	int stars = temp.countStars();
-	int fieldScore = (stars - (this->countStars())) * 10;
+	int fieldScore = (stars - ( countStars())) * getScoreMultiplier();
 	return fieldScore;
 }
 

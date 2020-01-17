@@ -7,38 +7,24 @@
 #include <Windows.h>
 
 
-bool btnClicked = false;
-bool endGame = false;
-bool firstIteration = true;
-bool step = false;
 
-int speed = 0;
-int score = 0;
 
-bool nextStep()
-{
-	speed += getStepSpeed();
-	if (speed == getMaxSpeed())
-	{
-		speed = 0;
-		step = true;
-	}
-	return step;
-}
 
-Game::Game() : Parent(30, 38)
+
+
+Game::Game() : Parent(getConsoleSizeX(), getConsoleSizeY())
 {
 	
 }
 
 int Game::getX() const
 {
-	return this->X_SIZE;
+	return  X_SIZE;
 }
 
 int Game::getY() const
 {
-	return this->Y_SIZE;
+	return  Y_SIZE;
 }
 
 void Game::keyPressed(Pacman &pacman, int btnCode, Field &field)
@@ -46,48 +32,62 @@ void Game::keyPressed(Pacman &pacman, int btnCode, Field &field)
 	pacman.move(btnCode, field);	
 }
 
+bool checkCollision(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange)
+{
+	return (pacman.getX() == (red.getX() + getPaddingSide()) && pacman.getY() == (red.getY() + getPaddingTop() - 1) ||
+		(pacman.getX() == (pink.getX() + getPaddingSide()) && pacman.getY() == (red.getY() + getPaddingTop() - 1)) ||
+		(pacman.getX() == (blue.getX() + getPaddingSide()) && pacman.getY() == (blue.getY() + getPaddingTop() - 1)) ||
+		(pacman.getX() == (orange.getX() + getPaddingSide()) && pacman.getY() == (orange.getY() + getPaddingTop() - 1)));
+}
 void collision(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange)
 {
-	if (pacman.getX() == (red.getX() + getPaddingSide()) && pacman.getY() == (red.getY() + getPaddingTop() - 1)||
-		pacman.getX() == (pink.getX() + getPaddingSide()) && pacman.getY() == (red.getY() + getPaddingTop() - 1||
-		pacman.getX() == (blue.getX() + getPaddingSide()) && pacman.getY() == (blue.getY() + getPaddingTop() - 1)||
-		pacman.getX() == (orange.getX() + getPaddingSide()) && pacman.getY() == (orange.getY() + getPaddingTop() - 1)))
+	if ((pacman.getHealth() > 0) && checkCollision(pacman, red, pink, blue, orange))
 	{
-		if (pacman.getHealth() > 0)
+		pacman.respawn();
+		red.respawn();
+		pink.respawn();
+		blue.respawn();
+		orange.respawn();
+	}
+}
+
+void DrawLine(Game &game, Field &field, int i)
+{
+	for (int j = 0; j < getYSize(); j++)
+	{
+		if (i == 0 || j == 0 || i == getXSize() - getPaddingSide() || j == getYSize() - getPaddingTop())
 		{
-			pacman.respawn();
-			red.respawn();
-			pink.respawn();
-			blue.respawn();
-			orange.respawn();
-			firstIteration = true;
+			game.setChar(i, j, '+');
+		}
+		else if ((j < getPaddingBot() && i>0 && i < getXSize()) || (j > getXSize() + getPaddingTop() - 1 && i > 0 && i < getYSize()))
+		{
+			game.setChar(i, j, ' ');
 		}
 		else
-			endGame = true;
+		{
+			game.setChar(i, j, field.getFieldChar(j - getPaddingTop() + 1, i - getPaddingSide()));
+		}
 	}
 }
 
 void drawField(Game &game, Field &field)
 {
+	int num = getXSize()*getYSize();
+
 	for (int i = 0; i < getXSize(); i++)
 	{
-		for (int j = 0; j < getYSize(); j++)
-		{
-			if (i == 0 || j == 0 || i == getXSize() - getPaddingSide() || j == getYSize() - getPaddingTop())
-				game.setChar(i, j, '+');
-			else if ((j < getPaddingBot() && i>0 && i < getXSize()) || (j > getXSize() + 3 && i > 0 && i < getYSize()))
-				game.setChar(i, j, ' ');
-			else
-				game.setChar(i, j, field.getFieldChar(j - getPaddingTop() + 1, i - getPaddingSide()));
-		}
+		DrawLine(game, field, i);
 	}
 }
 
-int tempScore = 0;
-void workWithScoreAndLifes(Game &game, Field &field, Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange)
+
+void workWithScoreAndLifes(Game &game, Field &field, Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, int &score)
 {
+	static int tempScore = 0;
 	char bufferScore[28];
 	char bufferLifes[28];
+	score = field.getFieldScore();
+	score += tempScore;
 	if (field.countStars() == 0)
 	{
 		field.resetField();
@@ -99,10 +99,11 @@ void workWithScoreAndLifes(Game &game, Field &field, Pacman &pacman, Ghost &red,
 		pink.respawn();
 		tempScore = score;
 	}
-	score = field.getFieldScore();
-	score += tempScore;
+	
 	if (field.countStars() == 0)
+	{
 		field.resetField();
+	}
 	sprintf_s(bufferScore, "Score = %d", score);
 
 	sprintf_s(bufferLifes, "Lifes left: %d             ", pacman.getHealth());
@@ -125,11 +126,11 @@ void workWithScoreAndLifes(Game &game, Field &field, Pacman &pacman, Ghost &red,
 	}
 }
 
-void moveObjects(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, Field &field)
+void moveObjects(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, Field &field, int score)
 {
 	collision(pacman, red, pink, blue, orange);
 
-	if (endGame)
+	if (pacman.getHealth()==0)
 	{
 		return;
 	}
@@ -161,31 +162,36 @@ void moveObjects(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &or
 	default:
 		pink.moveToPoint(2, -2, field, pacman);
 	}
-	if (score % 2530 > 300)
+
+	if (score % getMaxScore() > getScoreToSpawnBlue())
 	{
 		blue.moveToPoint(pacman.getX() + (pacman.getX() - red.getX()), pacman.getY() + (pacman.getY() - red.getY()), field, pacman);
 	}
-	if (score % 2530 > 2530 / 3)
+	if (score % getMaxScore() > getMaxScore() / 3)
 	{
 		if (orange.checkDistance(pacman.getX(), pacman.getY(), orange.getX(), orange.getY()) <= 8)
+		{
 			orange.moveToPoint(pacman.getX(), pacman.getY(), field, pacman);
+		}
 		else
+		{
 			orange.moveToPoint(31, 2, field, pacman);
+		}
 	}
 
 }
 
+
+int speed = 0;
 void Game::play(float deltaTime, Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, Field &field)
 {
-
-	step = nextStep();
-	if (step)
-	{
+	bool step = !(speed < 65);
+	if (step) {
+		int score = 0;
 		drawField(*this, field);
-		if (!btnClicked)
-			setChar(pacman.getX(), pacman.getY(), pacman.getDisplayName());
-		moveObjects(pacman, red, pink, blue, orange, field);
-		workWithScoreAndLifes(*this, field, pacman, red, pink, blue, orange);
-		step = false;
+		setChar(pacman.getX(), pacman.getY(), pacman.getDisplayName());
+		moveObjects(pacman, red, pink, blue, orange, field, score);
+		workWithScoreAndLifes(*this, field, pacman, red, pink, blue, orange, score);
 	}
+	speed += 5;
 }

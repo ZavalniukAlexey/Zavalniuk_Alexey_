@@ -4,7 +4,7 @@
 class Field
 {
 private:
-	char field[31][29]; 
+	char field[31][28]; 
 public:
 	Field();
 	void updateField(const int x, const int y, const char c);
