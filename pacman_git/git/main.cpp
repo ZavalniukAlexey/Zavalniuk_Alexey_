@@ -1,17 +1,20 @@
 
 #include "Game.hpp"
+#include "BlueGhost.hpp"
+#include "RedGhost.hpp"
+#include "PinkGhost.hpp"
+#include "OrangeGhost.hpp"
 #include "Pacman.hpp"
-#include "Ghost.hpp"
 #include "Field.hpp"
-void main ()
+void main()
 {
+	Pacman pacman(2, 23, 3, '@');
+	RedGhost red(6, 20, 1, 'R');
+	PinkGhost pink(21, 6, 1, 'P');
+	BlueGhost blue(22, 6,1,'B');
+	OrangeGhost orange(23,6,1,'O');
 	Field field;
-	Pacman pacman(2,29,3,'@');
-	Ghost red(12,11,1, 'r');
-	Ghost pink(13,11,1, 'p');
-	Ghost blue(14,11,1, 'b');
-	Ghost orange(15,11,1, 'o');
-	Game app;
-	app.run(pacman, red, pink, blue, orange, field);
+	Game app(pacman, red, pink, blue, orange, field);
+	app.run(app);
 }
 

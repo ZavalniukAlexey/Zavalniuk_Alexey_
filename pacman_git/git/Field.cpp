@@ -101,9 +101,8 @@ int Field::countStars() const
 
 int Field::getFieldScore() const
 {
-	Field temp;
-	int stars = temp.countStars();
-	int fieldScore = (stars - ( countStars())) * getScoreMultiplier();
+	int stars = getMaxScore() / getScoreMultiplier()-1;
+	int fieldScore = (stars - (countStars())) * getScoreMultiplier();
 	return fieldScore;
 }
 

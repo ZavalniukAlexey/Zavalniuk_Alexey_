@@ -50,21 +50,178 @@ void Ghost::respawn()
 	direction_ = 'l';
 }
 
-void move(Ghost &g, const int x, const int y, Field &f, char dir)
+
+void check(const int xGhost, const  int yGhost, const  int xPacman, const  int yPacman, double &dir, Field field)
+{
+	if (field.getFieldChar(yGhost, xGhost) != '#')
+		dir = sqrt((xGhost - xPacman)*(xGhost - xPacman) + (yGhost - yPacman)*(yGhost - yPacman));
+}
+
+bool checkCollision(const int x, const int y,Field field)
+{
+	return (field.getFieldChar(y, x) == '#');
+}
+void chooseDirection(Ghost &ghost, const int top, const int bot, const int left, const int right)
+{
+	int temp = fmin(fmin(top, bot), fmin(left, right));
+	if (temp == top)
+	{
+		ghost.setDirection('t');
+	}
+	else if (temp == bot)
+	{
+		ghost.setDirection('b');
+	}
+	else if (temp == right)
+	{
+		ghost.setDirection('r');
+	}
+	else if (temp == left)
+	{
+		ghost.setDirection('l');
+	}
+}
+void makeAStep(Ghost &ghost, Field &field)
+{
+	switch (ghost.getDirection())
+	{
+	case 't':
+	{
+		ghost.setY(ghost.getY() - 1);
+		break;
+	}
+	case 'b':
+	{
+		ghost.setY(ghost.getY() + 1);
+		break;
+	}
+	case 'l':
+	{
+		ghost.setX(ghost.getX() - 1);
+		break;
+	}
+	case 'r':
+	{
+		ghost.setX(ghost.getX() + 1);
+		break;
+	}
+	default:
+	{
+
+	}
+	}
+}
+
+void Ghost::changeDirection(const int x, const int y, Field field)
+{
+	double top = getBigNumber();
+	double bot = getBigNumber();
+	double left = getBigNumber();
+	double right = getBigNumber();
+	switch (direction_)
+	{
+	case 't':
+	{
+		if (!checkCollision(posX_-1, posY_, field))
+		{ 
+			left = checkDistance(x, y, posX_-1, posY_);
+		}
+		if (!checkCollision(posX_+1, posY_, field))
+		{
+			right = checkDistance(x, y, posX_+1, posY_);
+		}
+		if (!checkCollision(posX_, posY_-1, field))
+		{
+			top = checkDistance(x, y, posX_, posY_-1);
+		}
+		chooseDirection(*this, top, bot, left, right);
+		makeAStep(*this, field);
+		break;
+	}
+	case 'b':
+	{
+		if (!checkCollision(posX_ - 1, posY_, field))
+		{
+			left = checkDistance(x, y, posX_ - 1, posY_);
+		}
+		if (!checkCollision(posX_ + 1, posY_, field))
+		{
+			right = checkDistance(x, y, posX_ + 1, posY_);
+		}
+		if (!checkCollision(posX_, posY_ - 1, field))
+		{
+			top = checkDistance(x, y, posX_, posY_ - 1);
+		}
+		chooseDirection(*this, top, bot, left, right);
+		makeAStep(*this, field);
+		break;
+	
+	}
+	case 'r':
+	{
+		if (!checkCollision(posX_, posY_ + 1, field))
+		{
+			bot = checkDistance(x, y, posX_ , posY_ + 1);
+		}
+		if (!checkCollision(posX_ + 1, posY_, field))
+		{
+			right = checkDistance(x, y, posX_ + 1, posY_);
+		}
+		if (!checkCollision(posX_, posY_ - 1, field))
+		{
+			top = checkDistance(x, y, posX_, posY_ + 1);
+		}
+		chooseDirection(*this, top, bot, left, right);
+		makeAStep(*this, field);
+		break;
+	}
+	case 'l':
+	{
+		if (!checkCollision(posX_, posY_ + 1, field))
+		{
+			bot = checkDistance(x, y, posX_, posY_ + 1);
+		}
+		if (!checkCollision(posX_ - 1, posY_, field))
+		{
+			left = checkDistance(x, y, posX_ - 1, posY_);
+		}
+		if (!checkCollision(posX_, posY_ - 1, field))
+		{
+			top = checkDistance(x, y, posX_, posY_ + 1);
+		}
+		chooseDirection(*this, top, bot, left, right);
+		makeAStep(*this, field);
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	
+	}
+}
+
+void move(Ghost &g, Field &f)
 {
 	char temp;
 	g.setXOld(g.getX());
 	g.setYOld(g.getY());
-	switch (dir)
+	switch (g.getDirection())
 	{
 	case 't':
 	{
 		g.setY(g.getY() - 1);
+		temp = f.getFieldChar(g.getY(), g.getX());
+		f.updateField( g.getXOld(), g.getYOld(), temp);
+		f.updateField( g.getX(), g.getY(), g.getDisplayName());
 		break;
 	}
 	case 'b':
 	{
 		g.setY(g.getY() + 1);
+		temp = f.getFieldChar(g.getY(), g.getX());
+		f.updateField(g.getXOld(), g.getYOld(), temp);
+		f.updateField(g.getX(), g.getY(), g.getDisplayName());
 		break;
 	}
 	case 'l':
@@ -75,14 +232,16 @@ void move(Ghost &g, const int x, const int y, Field &f, char dir)
 		}
 		else
 		{
-			g.setX(g.getX()-1);
+			g.setX(g.getX() - 1);
 		}
-		
+		temp = f.getFieldChar(g.getY(), g.getX());
+		f.updateField(g.getXOld(), g.getYOld(), temp);
+		f.updateField(g.getX(), g.getY(), g.getDisplayName());
 		break;
 	}
 	case 'r':
 	{
-		if (g.getX() == getXSize()-2 && g.getY() == getJumpLine())
+		if (g.getX() == getXSize() - 2 && g.getY() == getJumpLine())
 		{
 			g.setX(2);
 		}
@@ -90,203 +249,79 @@ void move(Ghost &g, const int x, const int y, Field &f, char dir)
 		{
 			g.setX(g.getX() + 1);
 		}
+		temp = f.getFieldChar(g.getY(), g.getX());
+		f.updateField(g.getXOld(), g.getYOld(), temp);
+		f.updateField(g.getX(), g.getY(), g.getDisplayName());
 		break;
 	}
 	default:
 	{
-		g.setY(g.getY() + 1);
+		
 		break;
 	}
 	}
-	temp = f.getFieldChar(g.getY(), g.getX());
-	f.updateField(g.getYOld(), g.getXOld(), temp);
-	f.updateField(g.getY(), g.getX(), g.getDisplayName());
+	
 }
 
-void Ghost::moveToStop(Field &field, int steps, Pacman pacman)
+void Ghost::moveToStop(const int xPacman, const int yPacman, Field &field)
 {
 	switch (direction_)
 	{
 	case 't':
 	{
-		if (!switched)
+		if (field.getFieldChar(posY_, posX_ - 1) != '#' ||
+			field.getFieldChar(posY_, posX_ + 1) != '#')
 		{
-			if (field.getFieldChar(posY_,  posX_ - 1) != '#' ||
-				field.getFieldChar( posY_,  posX_ + 1) != '#')
-			{
-				turn('t', pacman, field);
-				break;
-			}
+			changeDirection(xPacman, yPacman, field);
+			break;
 		}
-		switched = false;
-		while (steps-- && (field.getFieldChar( posY_ - 1,  posX_) != '#'))
-		{
-			move(*this,  posY_ - 1,  posX_, field, 't');
-		}
+		move(*this, field);
 		break;
 	}
 	case 'b':
 	{
-		if (!switched)
+		if (field.getFieldChar(posY_, posX_ - 1) != '#' ||
+			field.getFieldChar(posY_, posX_ + 1) != '#')
 		{
-			if (field.getFieldChar( posY_,  posX_ - 1) != '#' ||
-				field.getFieldChar( posY_,  posX_ + 1) != '#')
-			{
-				turn('b', pacman, field);
-				break;
-			}
+			changeDirection(xPacman, yPacman, field);
+			break;
 		}
-		switched = false;
-		while (steps-- && (field.getFieldChar( posY_ + 1,  posX_) != '#'))
-		{
-			move(*this,  posY_ + 1,  posX_, field, 'b');
-		}
+		move(*this, field);
 		break;
 	}
 	case 'l':
 	{
-		if (!switched)
+		if (field.getFieldChar(posY_-1, posX_) != '#' ||
+			field.getFieldChar(posY_+1, posX_)  != '#')
 		{
-			if (field.getFieldChar( posY_ - 1,  posX_) != '#' ||
-				field.getFieldChar( posY_ + 1,  posX_) != '#')
-			{
-				turn('l', pacman, field);
-				break;
-			}
+			changeDirection(xPacman, yPacman, field);
+			break;
 		}
-		switched = false;
-		while (steps-- && (field.getFieldChar( posY_,  posX_ - 1) != '#'))
-		{
-			move(*this,  posY_,  posX_ - 1, field, 'l');
-		}
+		move(*this, field);
 		break;
 	}
 	case 'r':
 	{
-		if (!switched)
+		if (field.getFieldChar(posY_ - 1, posX_) != '#' ||
+			field.getFieldChar(posY_ + 1, posX_) != '#')
 		{
-			if (field.getFieldChar( posY_ - 1,  posX_) != '#' ||
-				field.getFieldChar( posY_ + 1,  posX_) != '#')
-			{
-				turn('r', pacman, field);
-				break;
-			}
+			changeDirection(xPacman, yPacman, field);
+			break;
 		}
-		switched = false;
-		while (steps-- && (field.getFieldChar( posY_,  posX_ + 1) != '#'))
-		{
-			move(*this,  posY_,  posX_ + 1, field, 'r');
-		}
-		break;
-	}
-
-	default:
-	{
-		move(*this,  posY_,  posX_ + 1, field, 'r');
-		break;
-	}
-	}
-}
-
-void check(const int xGhost, const  int yGhost, const  int xPacman, const  int yPacman, double &dir, Field field)
-{
-	if (field.getFieldChar(yGhost, xGhost) != '#')
-		dir = sqrt((xGhost - xPacman)*(xGhost - xPacman) + (yGhost - yPacman)*(yGhost - yPacman));
-}
-
-void set(const double top, const double bot, const double right, const double left, Field field, Ghost& ghost)
-{
-	double temp = fmin(fmin(top, bot), fmin(right, left));
-	if (top == temp)
-	{
-		if (field.getFieldChar(ghost.getY() - 1, ghost.getX()) != '#')
-		{
-			ghost.setDirection('t');
-		}
-		else
-			temp = fmin(bot, fmin(left, right));
-	}
-	else if (left == temp)
-	{
-		if (field.getFieldChar(ghost.getY(), ghost.getX() - 1) != '#')
-		{
-			ghost.setDirection('l');
-		}
-		else
-		{
-			temp = fmin(bot, right);
-		}
-	}
-	else if (right == temp)
-	{
-		if (field.getFieldChar(ghost.getY(), ghost.getX() + 1) != '#')
-		{
-			ghost.setDirection('r');
-		}
-		else
-		{
-			temp = bot;
-		}
-	}
-	else 
-	{
-		if (field.getFieldChar(ghost.getY() + 1, ghost.getX()) != '#')
-		{
-			ghost.setDirection('b');
-		}
-	}
-}
-void Ghost::turn(char direction, Pacman pacman, Field field)
-{
-	switched = true;
-	double top = getBigNumber(), bot = getBigNumber(), right = getBigNumber(), left = getBigNumber();
-	switch (direction)
-	{
-	case 't':
-	{
-		check( getX(),  getY() - 1, pacman.getX(), pacman.getY(), top, field);
-		check( getX() + 1,  getY(), pacman.getX(), pacman.getY(), right, field);
-		check( getX() - 1,  getY(), pacman.getX(), pacman.getY(), left, field);
-		set(top, bot, right, left, field, *this);
-		break;
-	}
-	case 'b':
-	{
-		check( getX() + 1,  getY(), pacman.getX(), pacman.getY(), right, field);
-		check( getX() - 1,  getY(), pacman.getX(), pacman.getY(), left, field);
-		check( getX(),  getY() + 1, pacman.getX(), pacman.getY(), bot, field);
-		set(top, bot, right, left, field, *this);
-		break;
-	}
-	case 'r':
-	{
-		check( getX(),  getY() + 1, pacman.getX(), pacman.getY(), bot, field);
-		check( getX() + 1,  getY(), pacman.getX(), pacman.getY(), right, field);
-		check( getX(),  getY() - 1, pacman.getX(), pacman.getY(), top, field);
-		set(top, bot, right, left, field, *this);
-		break;
-	}
-	case 'l':
-	{
-		check( getX(),  getY() - 1, pacman.getX(), pacman.getY(), top, field);
-		check( getX() - 1,  getY(), pacman.getX(), pacman.getY(), left, field);
-		check( getX(),  getY() + 1, pacman.getX(), pacman.getY(), bot, field);
-		set(top, bot, right, left, field, *this);
+		move(*this, field);
 		break;
 	}
 	default:
-	{
-		bot = 1;
-		set(top, bot, right, left, field, *this);
+		break;
 	}
-	}
-
+	
 }
 
-void Ghost::moveToPoint(const int x, const  int y, Field &field, Pacman pacman)
+void Ghost::moveToPoint(const int xPacman, const int yPAcman, Field & field)
 {
-	moveToStop(field, 1, pacman);
+	moveToStop(xPacman, yPAcman, field);
 }
+
 
 Ghost::~Ghost()
 {

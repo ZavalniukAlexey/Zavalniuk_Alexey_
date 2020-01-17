@@ -7,7 +7,7 @@
 #include "Pacman.hpp"
 #include "Ghost.hpp"
 
-
+class Game;
 class BaseApp
 {
 private:
@@ -27,9 +27,10 @@ public:
 
 	BaseApp(int xSize=100, int ySize=80);
 	virtual ~BaseApp();
-	void run(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, Field &field);
+	//void run()
+	void run(Game game);
 	void setChar(const int x, const int y, const wchar_t c);
 	wchar_t getChar(const int x, const int y);
-	virtual void play (float deltaTime, Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, Field &field){}
-	virtual void keyPressed (Pacman &pacman, int btnCode, Field &field){}
+	virtual void play(float deltaTime);
+	virtual void keyPressed(Pacman &pacman, int btnCode, Field &field);
 };

@@ -1,12 +1,11 @@
 #pragma once
 #include "movableObject.hpp"
 #include "Field.hpp"
-#include "Pacman.hpp"
 
 class Ghost :
 	public movableObject
 {
-private:
+protected:
 	bool frighten_;
 	bool chase_;
 	bool scatter_;
@@ -15,9 +14,15 @@ public:
 	Ghost();
 	Ghost(const int x, const  int y, const  int hp, const  char c);
 	void respawn();
-	void turn(const char direction, Pacman pacman, Field field);
-	void moveToStop(Field &field, int steps, Pacman pacman);
-	void moveToPoint(const int x, const  int y, Field &field, Pacman pacman);
-	~Ghost();
+
+
+	void changeDirection(const int x, const int y, Field field);
+	void moveToStop(const int xPacman, const int yPacman, Field & field);
+	virtual void moveToPoint(const int xPacman, const int yPAcman, Field &field);
+
+
+	
+
+	virtual ~Ghost();
 };
 

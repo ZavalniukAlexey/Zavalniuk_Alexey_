@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <strsafe.h>
 
+#include "Game.hpp"
+
 #define MY_PERFORMENCE_COUNTER
 
 #include "PerformanceCounter.hpp"
@@ -44,54 +46,43 @@ BaseApp::BaseApp(const int xSize, const int ySize) : X_SIZE(xSize), Y_SIZE(ySize
 	mLpWriteRegion.Left = 0;
 	mLpWriteRegion.Top = 0;
 	mLpWriteRegion.Right = X_SIZE + 1;
-	mLpWriteRegion.Bottom = Y_SIZE + 1;	
+	mLpWriteRegion.Bottom = Y_SIZE + 1;
+
+	for (int x = 0; x < X_SIZE + 1; x++)
+	{
+		for (int y = 0; y < Y_SIZE + 1; y++)
+		{
+			setChar(x, y, L' ');
+		}
+	}
 }
 
 
 BaseApp::~BaseApp()
 {
-	free(mChiBuffer);
+
 }
 
-void BaseApp::setChar(const int x, const int y, const wchar_t c)
-{
-	mChiBuffer[x + (X_SIZE+1)*y].Char.UnicodeChar = c;
-	mChiBuffer[x + (X_SIZE+1)*y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
-}
-
-wchar_t BaseApp::getChar(const int x, const int y)
-{
-	return mChiBuffer[x + (X_SIZE+1)*y].Char.AsciiChar;
-}
-
-void BaseApp::Render()
-{
-	if (!WriteConsoleOutput(mConsole, mChiBuffer, mDwBufferSize, mDwBufferCoord, &mLpWriteRegion)) 
-	{
-		printf("WriteConsoleOutput failed - (%d)\n", GetLastError()); 
-	}
-}
-
-void BaseApp::run(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange, Field &field)
+void BaseApp::run(Game game) 
 {
 	CStopwatch timer;
 	int sum = 0;
 	int counter = 0;
-
+	int btn = 0;
 	int deltaTime = 0;
 	while (1)
 	{
 		timer.Start();
 		if (kbhit())
 		{
-			keyPressed(pacman, getch(), field);
+			btn = getch();
 			if (!FlushConsoleInputBuffer(mConsoleIn))
-				std::cout<<"FlushConsoleInputBuffer failed with error "<<GetLastError();
+				std::cout << "FlushConsoleInputBuffer failed with error " << GetLastError();
 		}
-
-		play((float)deltaTime / 1000.0f, pacman, red,pink, blue,orange, field);
+		keyPressed(game.getPacman(), btn, game.getField());
+		play((float)deltaTime / 1000.0f);
 		Render();
-		Sleep(1);
+		Sleep(100);
 
 		while (1)
 		{
@@ -111,5 +102,32 @@ void BaseApp::run(Pacman &pacman, Ghost &red, Ghost &pink, Ghost &blue, Ghost &o
 			counter = 0;
 			sum = 0;
 		}
+	}
+}
+
+void BaseApp::setChar(const int x, const int y, const wchar_t c)
+{
+	mChiBuffer[x + (X_SIZE+1)*y].Char.UnicodeChar = c;
+	mChiBuffer[x + (X_SIZE+1)*y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
+}
+
+wchar_t BaseApp::getChar(const int x, const int y)
+{
+	return mChiBuffer[x + (X_SIZE+1)*y].Char.AsciiChar;
+}
+
+void BaseApp::play(float deltaTime) 
+{
+}
+
+void BaseApp::keyPressed(Pacman & pacman, int btnCode, Field & field)
+{
+}
+
+void BaseApp::Render()
+{
+	if (!WriteConsoleOutput(mConsole, mChiBuffer, mDwBufferSize, mDwBufferCoord, &mLpWriteRegion)) 
+	{
+		printf("WriteConsoleOutput failed - (%d)\n", GetLastError()); 
 	}
 }

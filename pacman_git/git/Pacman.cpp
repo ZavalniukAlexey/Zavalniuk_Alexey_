@@ -15,6 +15,7 @@ Pacman::Pacman()
 	startingY_ = 10;
 	startingX_ = 10;
 	direction_ = 'b';
+	energised_ = false;
 }
 Pacman::Pacman(const int x, const  int y, const  int hp, const  char c)
 {
@@ -27,86 +28,89 @@ Pacman::Pacman(const int x, const  int y, const  int hp, const  char c)
 	startingY_ = y;
 	startingX_ = x;
 	direction_ = 'b';
+	energised_ = false;
 }
 
-void Pacman::move(int btnCode, Field &f)
+void Pacman::turn(const int btnCode, Field &field)
 {
-	
-	if (btnCode == getWCode())
+	if((btnCode == getWCode() || btnCode == getUpCode())) //&& field.getFieldChar(posY_ - getPaddingTop(), posX_ - getPaddingSide()) != '#')
 	{
-		if (f.getFieldChar(posY_ - getPaddingTop(), posX_ - getPaddingSide()) != '#')
+		this->direction_ = 't';
+	}
+	else if ((btnCode == getACode() || btnCode == getLeftCode()) && field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() - 1) != '#')
+	{
+		this->direction_ = 'l';
+	}
+	else if ((btnCode == getSCode() || btnCode == getDownCode()))// && field.getFieldChar(posY_ - getPaddingTop() + 2, posX_ - getPaddingSide()) != '#')
+	{
+		this->direction_ = 'b';
+	}
+	else if ((btnCode == getDCode() || btnCode == getRightCode()) && field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() + 1) != '#')
+	{
+		direction_ = 'r';
+	}
+	move(field);
+	int a = 0;
+}
+
+void Pacman::move(Field &field)
+{
+	switch (direction_) {
+	case 't':
+	{
+		if (field.getFieldChar(posY_ - getPaddingTop(), posX_ - getPaddingSide()) != '#')
 		{
 			posY_--;
 		}
-		direction_ = 't';
+		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
+		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
+		posXOld_ = posX_;
+		posYOld_ = posY_;
+		break;
 	}
-	else if (btnCode == getSCode())
+	case 'b':
 	{
-		if (f.getFieldChar(posY_ - getPaddingTop() + 2, posX_ - getPaddingSide()) != '#')
+
+		if (field.getFieldChar(posY_ - getPaddingTop() + 2, posX_ - getPaddingSide()) != '#')
 		{
 			posY_++;
 		}
-		direction_ = 'b';
+		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
+		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
+		posXOld_ = posX_;
+		posYOld_ = posY_;
+		break;
 	}
-	else if (btnCode == getACode())
+	case 'r':
 	{
-		if (f.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() - 1) != '#')
-		{
-
-			posX_--;
-		}
-		direction_ = 'l';
-	}
-	else if (btnCode == getDCode())
-	{
-		if (f.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() + 1) != '#')
-		{
-
-			posX_++;
-		}
-		direction_ = 'r';
-	}
-
-	if (posX_ < getPaddingSide() + 1)
-	{
-		if (posY_ == getJumpLine() + getPaddingTop())
-		{
-			posX_--;
-		}
-		if (posX_ < 2)
-		{
-			posX_ = getXSize() - 2;
-		}
-		posX_++;
-	}
-
-	if (posX_ >= getXSize() - getPaddingSide())
-	{
-		if (posY_ == getJumpLine() + getPaddingTop())
+		if (field.getFieldChar(posY_ , posX_ + 1) != '#')
 		{
 			posX_++;
 		}
-		if (posX_ >= getXSize() - getPaddingSide())
+		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
+		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
+		posXOld_ = posX_;
+		posYOld_ = posY_;
+		break;
+	}
+	case 'l':
+	{
+		if (field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() - 1) != '#')
 		{
-			posX_ = 2;
+			posX_--;
 		}
-		posX_--;
+		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
+		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
+		posXOld_ = posX_;
+		posYOld_ = posY_;
+		break;
 	}
 
-
-	if (posY_ < getPaddingTop())
+	default:
 	{
-		posY_++;
+		break;
 	}
-
-	if (posY_ >= getYSize() - getPaddingTop()-1)
-	{
-		posY_--;
 	}
-	f.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
-	f.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
-	posXOld_ = posX_;
-	posYOld_ = posY_;
 }
 
 void Pacman::respawn()

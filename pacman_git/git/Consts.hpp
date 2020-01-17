@@ -78,7 +78,27 @@ inline const int getFieldY()
 {
 	return 31;
 }
+inline const int getUpCode()
+{
+	return 72;
+}
+inline const int getDownCode()
+{
+	return 80;
+}
+inline const int getLeftCode()
+{
+	return 75;
+}
+inline const int getRightCode()
+{
+	return 77;
+}
 inline const int getScoreMultiplier()
 {
 	return 10;
+}
+inline const int getIgnoredNumber()
+{
+	return 224;
 }

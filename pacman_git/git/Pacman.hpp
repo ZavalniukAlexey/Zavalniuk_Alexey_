@@ -4,10 +4,13 @@
 class Pacman :
 	public movableObject
 {
+private:
+	bool energised_;
 
 public:
 	Pacman(const int x, const  int y, const  int hp, const  char c);
-	void move(int btnCode, Field &f);
+	void turn(int btnCode, Field & field);
+	void move(Field & field);
 	void respawn();
 	char getDirection() const;
 	Pacman();
