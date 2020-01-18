@@ -114,6 +114,19 @@ int movableObject::getHealth() const
 	return health_;
 }
 
+/*movableObject movableObject::operator=(movableObject MO)
+{
+	posX_ = MO.getX();
+	posY_=MO.getY();
+	posXOld_=MO.getXOld();
+	health_=MO.getHealth();
+	displayName_=MO.getDisplayName();
+	startingX_=MO.getStartingX();
+	startingY_=MO.getStartingY();
+	direction_=MO.getDirection();
+	return *this;
+}*/
+
 movableObject::~movableObject()
 {
 }

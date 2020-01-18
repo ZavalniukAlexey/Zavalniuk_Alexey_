@@ -17,6 +17,7 @@ private:
 	BlueGhost blue_;
 	OrangeGhost orange_;
 	Field field_;
+
 	typedef BaseApp Parent;
 
 	private:

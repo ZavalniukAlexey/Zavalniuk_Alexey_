@@ -31,13 +31,14 @@ Pacman::Pacman(const int x, const  int y, const  int hp, const  char c)
 	energised_ = false;
 }
 
-void Pacman::turn(const int btnCode, Field &field)
+void Pacman::turn(int btnCode, Field &field)
 {
-	if((btnCode == getWCode() || btnCode == getUpCode())) //&& field.getFieldChar(posY_ - getPaddingTop(), posX_ - getPaddingSide()) != '#')
+	
+	if((btnCode == getWCode() || btnCode == getUpCode()))// && field.getFieldChar(posX_ - getPaddingSide(), posY_ - getPaddingTop() ) != '#')
 	{
 		this->direction_ = 't';
 	}
-	else if ((btnCode == getACode() || btnCode == getLeftCode()) && field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() - 1) != '#')
+	else if ((btnCode == getACode() || btnCode == getLeftCode()))// && field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() - 1) != '#'))
 	{
 		this->direction_ = 'l';
 	}
@@ -45,12 +46,12 @@ void Pacman::turn(const int btnCode, Field &field)
 	{
 		this->direction_ = 'b';
 	}
-	else if ((btnCode == getDCode() || btnCode == getRightCode()) && field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() + 1) != '#')
+	else if ((btnCode == getDCode() || btnCode == getRightCode()))// && field.getFieldChar(posY_ - getPaddingTop() + 1, posX_ - getPaddingSide() + 1) != '#')
 	{
 		direction_ = 'r';
 	}
 	move(field);
-	int a = 0;
+	//int a = 0;
 }
 
 void Pacman::move(Field &field)
@@ -64,8 +65,8 @@ void Pacman::move(Field &field)
 		}
 		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
 		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
-		posXOld_ = posX_;
-		posYOld_ = posY_;
+		this->posXOld_ = posX_;
+		this->posYOld_ = posY_;
 		break;
 	}
 	case 'b':
@@ -77,20 +78,21 @@ void Pacman::move(Field &field)
 		}
 		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
 		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
-		posXOld_ = posX_;
-		posYOld_ = posY_;
+		this->posXOld_ = posX_;
+		this->posYOld_ = posY_;
 		break;
 	}
 	case 'r':
 	{
 		if (field.getFieldChar(posY_ , posX_ + 1) != '#')
 		{
-			posX_++;
+			this->posX_++;
 		}
-		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
-		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
 		posXOld_ = posX_;
 		posYOld_ = posY_;
+		field.updateField(getYOld() - getPaddingTop() + 1, getXOld() - getPaddingSide(), ' ');
+		field.updateField(getY() - getPaddingTop() + 1, getX() - getPaddingSide(), getDisplayName());
+		
 		break;
 	}
 	case 'l':

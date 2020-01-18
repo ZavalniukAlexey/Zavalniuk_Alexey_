@@ -16,8 +16,8 @@ public:
 	void respawn();
 
 
-	void changeDirection(const int x, const int y, Field field);
-	void moveToStop(const int xPacman, const int yPacman, Field & field);
+	virtual void changeDirection(const int x, const int y, Field field);
+	virtual void moveToStop(const int xPacman, const int yPacman, Field & field);
 	virtual void moveToPoint(const int xPacman, const int yPAcman, Field &field);
 
 

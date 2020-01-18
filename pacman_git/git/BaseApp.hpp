@@ -20,8 +20,8 @@ private:
 	SMALL_RECT mLpWriteRegion;
 	void Render();
 
-public:
 
+public:
 	const int X_SIZE;
 	const int Y_SIZE;
 

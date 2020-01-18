@@ -256,11 +256,9 @@ void move(Ghost &g, Field &f)
 	}
 	default:
 	{
-		
 		break;
 	}
 	}
-	
 }
 
 void Ghost::moveToStop(const int xPacman, const int yPacman, Field &field)

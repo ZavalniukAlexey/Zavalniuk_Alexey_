@@ -66,7 +66,8 @@ void Game::setField(Field F)
 
 void Game::keyPressed(Pacman &pacman, int btnCode, Field &field)
 {
-	pacman.turn(btnCode, field);
+	int a = btnCode;
+	pacman.turn(a, field);
 	this->setPacman(pacman);
 	this->setField(field);
 }
@@ -167,9 +168,9 @@ void workWithScoreAndLifes(Game &game, Field &field, Pacman &pacman, RedGhost &r
 	}
 }
 
-void moveObjects(Pacman &pacman, RedGhost &red, PinkGhost &pink, BlueGhost &blue, OrangeGhost &orange, Field &field, int score)
+void moveObjects(Pacman &pacman, RedGhost &red, PinkGhost &pink, BlueGhost &blue, OrangeGhost &orange, Field &field, int& score)
 {
-	collision(pacman, red, pink, blue, orange);
+	//collision(pacman, red, pink, blue, orange);
 
 	if (pacman.getHealth()==0)
 	{
@@ -187,27 +188,10 @@ void Game::play(float deltaTime)
 	static int score = 0;
 	bool step = !(speed < 65);
 	if (step) {
-		Pacman P = getPacman();
-		RedGhost RG = getRedghost();
-		PinkGhost PG =getPinkghost();
-		BlueGhost BG = getBlueghost();
-		OrangeGhost OG = getOrangeghost();
-		Field F = getField();
-		drawField(*this, F);
-		setChar(P.getX(), P.getY(), P.getDisplayName());
-		moveObjects(P, RG,  PG, BG, OG, F, score);
-		workWithScoreAndLifes(*this, F, P, RG, PG, BG, OG, score);
-		setChar(P.getY(), P.getX(), '@');
-		setChar(RG.getY(), RG.getX(), 'R');
-		setChar(PG.getY(), PG.getX(), 'P');
-		setChar(BG.getY(), BG.getX(), 'B');
-		setChar(OG.getY(), OG.getX(), 'O');
-		setPacman(P);
-		setBlue(BG);
-		setOrange(OG);
-		setPacman(P);
-		setPink(PG);
-		setRed(RG);
+		drawField(*this, field_);
+		moveObjects(pacman_, red_,  pink_, blue_, orange_, field_, score);
+		workWithScoreAndLifes(*this, field_, pacman_, red_, pink_, blue_, orange_,  score);
+		
 	}
 	
 	speed += 5;

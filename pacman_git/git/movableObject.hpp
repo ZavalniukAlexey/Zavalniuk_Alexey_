@@ -32,10 +32,7 @@ public:
 	void setYOld(const  int y);
 	void setDirection(const char c);
 	int getHealth()const;
-	movableObject getThis()
-	{
-		return *this;
-	}
+	//movableObject operator= (movableObject MO);
 	virtual ~movableObject();
 };
 
