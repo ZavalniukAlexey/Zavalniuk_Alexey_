@@ -4,14 +4,10 @@
 
 OrangeGhost::OrangeGhost()
 {
-	posX_ = 8;
-	posY_ = 22;
-	posXOld_ = posX_;
-	posYOld_ = posY_;
+	posXOld_ = startingX_ = posX_ = 14;
+	posYOld_ = startingY_ = posY_ = 16;
 	health_ = 1;
 	displayName_ = 'O';
-	startingY_ = 6;
-	startingX_ = 20;
 	frighten_ = false;
 	chase_ = true;
 	direction_ = 'l';

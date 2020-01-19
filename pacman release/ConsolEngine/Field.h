@@ -3,7 +3,7 @@
 class Field
 {
 private:
-	char field[37][31] =
+	char field[38][31] =
 	{
 		"++++++++++++++++++++++++++++++",
 		"+   Score:                   +",

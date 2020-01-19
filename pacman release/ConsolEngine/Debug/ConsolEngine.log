@@ -1,16 +1,3 @@
 ﻿cl : командная строка warning D9035: использование параметра "Gm" нежелательно, он будет удален в следующих выпусках
-  main.cpp
-  Game.cpp
-c:\users\я\desktop\src_sample\consolengine\game.cpp(62): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
-  BaseApp.cpp
-c:\users\я\desktop\src_sample\consolengine\performancecounter.h(35): warning C4244: return: преобразование "LONGLONG" в "int", возможна потеря данных
-c:\users\я\desktop\src_sample\consolengine\performancecounter.h(42): warning C4244: return: преобразование "LONGLONG" в "int", возможна потеря данных
-c:\users\я\desktop\src_sample\consolengine\baseapp.cpp(16): warning C4838: преобразование из "const int" в "SHORT" требует сужающего преобразования
-c:\users\я\desktop\src_sample\consolengine\baseapp.cpp(17): warning C4838: преобразование из "int" в "SHORT" требует сужающего преобразования
-c:\users\я\desktop\src_sample\consolengine\baseapp.cpp(96): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _kbhit. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\conio.h(458): note:  см. объявление "kbhit"
-c:\users\я\desktop\src_sample\consolengine\baseapp.cpp(98): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\conio.h(452): note:  см. объявление "getch"
-  Создание кода...
-BaseApp.obj : warning LNK4075: эх єўшЄ√трхЄё  "/EDITANDCONTINUE" шч-чр ёяхЎшЇшърЎшш "/SAFESEH"
-  ConsolEngine.vcxproj -> C:\Users\Я\Desktop\src_sample\Debug\ConsolEngine.exe
+  Pacman.cpp
+  ConsolEngine.vcxproj -> C:\Users\Я\Desktop\asd\pacman release\Debug\ConsolEngine.exe

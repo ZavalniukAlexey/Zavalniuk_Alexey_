@@ -53,24 +53,24 @@ BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 	{
 		for (int y=0; y<Y_SIZE+1; y++)
 		{
-			SetChar(x, y, L' ');
+			setChar(x, y, L' ');
 		}
 	}
 }
 
 BaseApp::~BaseApp()
 {
-	free(mChiBuffer);
+	//free(mChiBuffer);
 }
 
-void BaseApp::SetChar(int x, int y, wchar_t c)
+void BaseApp::setChar(int x, int y, wchar_t c)
 {
 	mChiBuffer[x + (X_SIZE+1)*y].Char.UnicodeChar = c;
 	mChiBuffer[x + (X_SIZE+1)*y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
 
 }
 
-wchar_t BaseApp::GetChar(int x, int y)
+wchar_t BaseApp::getChar(int x, int y)
 {
 	return mChiBuffer[x + (X_SIZE+1)*y].Char.AsciiChar;
 }
@@ -85,6 +85,7 @@ void BaseApp::Render()
 
 void BaseApp::Run()
 {
+	
 	CStopwatch timer;
 	int sum = 0;
 	int counter = 0;
@@ -103,6 +104,11 @@ void BaseApp::Run()
 			continue;
 		KeyPressed(btnCode);
 		UpdateF((float)deltaTime / 1000.0f);
+		if (endGame)
+		{
+			this->~BaseApp();
+			return;
+		}
 		Render();
 		Sleep(1);
 

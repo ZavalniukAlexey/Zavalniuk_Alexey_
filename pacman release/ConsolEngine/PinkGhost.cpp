@@ -3,14 +3,10 @@
 
 PinkGhost::PinkGhost()
 {
-	posX_ = 8;
-	posY_ = 20;
-	posXOld_ = posX_;
-	posYOld_ = posY_;
+	posXOld_ = startingX_ = posX_ = 14;
+	posYOld_ = startingY_ = posY_ = 14;
 	health_ = 1;
 	displayName_ = 'p';
-	startingY_ = 6;
-	startingX_ = 20;
 	frighten_ = false;
 	
 	chase_ = true;

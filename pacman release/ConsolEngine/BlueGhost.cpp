@@ -5,16 +5,11 @@
 
 BlueGhost::BlueGhost()
 {
-	posX_ = 8;
-	posY_ = 21;
-	posXOld_ = posX_;
-	posYOld_ = posY_;
+	posXOld_ = startingX_ = posX_ = 14;
+	posYOld_ = startingY_ = posY_ = 15;
 	health_ = 1;
 	displayName_ = 'B';
-	startingY_ = 6;
-	startingX_ = 20;
 	frighten_ = false;
-	
 	chase_ = true;
 	direction_ = 'l';
 }
@@ -29,7 +24,6 @@ BlueGhost::BlueGhost(const int x, const int y, const int hp, const char name)
 	startingY_ = y;
 	startingX_ = x;
 	frighten_ = false;
-	
 	chase_ = true;
 	direction_ = 'l';
 }

@@ -4,14 +4,10 @@
 
 RedGhost::RedGhost()
 {
-	posX_ = 8;
-	posY_ = 19;
-	posXOld_ = posX_;
-	posYOld_ = posY_;
+	posXOld_ = startingX_ = posX_ = 14;
+	posYOld_ = startingY_ = posY_ = 13;
 	health_ = 1;
 	displayName_ = 'r';
-	startingY_ = 4;
-	startingX_ = 2;
 	frighten_ = false;
 	chase_ = true;
 	direction_ = 'l';

@@ -14,12 +14,15 @@ class Game : public BaseApp
 	private:
 		Pacman pacman_;
 		Field field_;
-		RedGhost rg_;
-		PinkGhost pg_;
-		BlueGhost bg_;
-		OrangeGhost og_;
-		int score = 0;
+		RedGhost redGhost_;
+		PinkGhost pinkGhost_;
+		BlueGhost blueGhost_;
+		OrangeGhost orangeGhost_;
+		int score_ = 0;
 		int level_ = 0;
+		int speed_ = 0;
+		int step_ = 10;
+		int maxSpeed_ = 80;
 	public:
 		Game();
 		virtual void KeyPressed(int btnCode);

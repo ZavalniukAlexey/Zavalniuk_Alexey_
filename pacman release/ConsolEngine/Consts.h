@@ -69,9 +69,9 @@ inline const int getScoreToSpawnBlue()
 {
 	return 300;
 }
-inline const int getScoreToSpawnOrange()
+inline const int getStarsToSpawnOrange()
 {
-	return 840;
+	return 168;
 }
 inline const int getFieldX()
 {
