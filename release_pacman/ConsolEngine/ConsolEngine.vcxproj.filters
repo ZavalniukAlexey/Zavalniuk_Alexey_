@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseApp.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableObject.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="RedGhost.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PinkGhost.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGhost.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="OrangeGhost.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Pacman.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MovableObject.h" />
+    <ClInclude Include="Ghost.h" />
+    <ClInclude Include="RedGhost.h" />
+    <ClInclude Include="PinkGhost.h" />
+    <ClInclude Include="BlueGhost.h" />
+    <ClInclude Include="OrangeGhost.h" />
+    <ClInclude Include="Pacman.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Consts.h" />
+    <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="BaseApp.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Menu.h" />
+  </ItemGroup>
+</Project>
